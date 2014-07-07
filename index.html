@@ -1,12 +1,37 @@
 <!DOCTYPE html>
 <html>
-<head>
-  <meta charset="utf-8">
-  <title>URDB!</title>
-</head>
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Movies</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="./css/style.css">
+        <script type="text/javascript" src="http://cdnjs.cloudflare.com/ajax/libs/modernizr/2.8.2/modernizr.min.js"></script>
+    </head>
 <body>
-  <div class="main">hello world</div>
+  <div class="now-playing">
+    <h1>Now Playing</h1>
+    <ul></ul>
+  </div>
+
   <script src="js/jquery-1.11.1.min.js"></script>
   <script src="js/handlebars-v1.3.0.js"></script>
+
+  <script>
+    $.get("https://api.themoviedb.org/3/movie/now_playing?api_key=94c80afc34bf197ad87d804f78125722", function(data) {
+        var movieList = $.map(data.results, function(movie, i) {
+          var listItem = $('<div></div>')
+          $('<h3>' + movie.title + '</h3>').appendTo(listItem);
+          $('<li>Release Date: ' + movie.release_date + '</li>').appendTo(listItem);
+          $('<li>Popularity: ' + movie.popularity + '</li>').appendTo(listItem);
+          $('<li>Vote Average: ' + movie.vote_average + '</li>').appendTo(listItem);
+          $('<li>Poster Path: ' + movie.poster_path + '</li>').appendTo(listItem);
+          return listItem;
+        });
+        $('.now-playing').html(movieList);
+  });
+  </script>
+
 </body>
 </html>
